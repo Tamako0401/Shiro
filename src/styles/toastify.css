@@ -115,9 +115,7 @@ html[data-theme='dark'] .Toastify__toast--error {
   padding: 0;
 }
 
-.Toastify__toast-icon,
-.Toastify__progress-bar,
-.Toastify__progress-bar--wrp {
+.Toastify__toast-icon {
   display: none !important;
 }
 
