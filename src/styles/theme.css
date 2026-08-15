@@ -27,7 +27,7 @@ html.themed body::after {
   inset: 0;
   content: '';
   pointer-events: none;
-  background-image: url('https://pub-48617792005b4ba3acf721d0626eae2f.r2.dev/shiro/backgrounds/bg-3.png');
+  background-image: url('https://pub-48617792005b4ba3acf721d0626eae2f.r2.dev/shiro/backgrounds/bg-4.webp');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
