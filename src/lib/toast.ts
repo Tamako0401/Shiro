@@ -23,6 +23,7 @@ const baseConfig = {
   position: 'bottom-right',
   autoClose: 3000,
   pauseOnHover: false,
+  pauseOnFocusLoss: false,
   hideProgressBar: true,
   closeOnClick: true,
   closeButton: false,
