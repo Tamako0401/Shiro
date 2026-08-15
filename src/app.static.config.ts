@@ -11,7 +11,7 @@ export const appStaticConfig = {
     enabled: true,
 
     ttl: {
-      aggregation: 3600,
+      aggregation: 30,
     },
   },
 }
