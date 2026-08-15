@@ -11,35 +11,54 @@ html[data-theme='dark'].noise body::before {
   opacity: 0.01;
 }
 
-html.themed {
-  --shiro-page-background-opacity: 0.00;
-  --shiro-page-background-filter: saturate(0.82) contrast(0.92);
-}
-
-html[data-theme='dark'].themed {
-  --shiro-page-background-opacity: 0.00;
-  --shiro-page-background-filter: brightness(0.65) saturate(0.75);
-}
-
-html.themed body::after {
-  position: fixed;
-  z-index: 0;
-  inset: 0;
-  content: '';
-  pointer-events: none;
-  background-image: url('https://pub-48617792005b4ba3acf721d0626eae2f.r2.dev/shiro/backgrounds/bg-4.webp');
+html.themed body {
+  min-height: 100%;
+  background-color: #fffdfd;
+  background-image: radial-gradient(
+      circle at 12% 8%,
+      rgb(251 113 133 / 9%),
+      transparent 34rem
+    ),
+    radial-gradient(
+      circle at 88% 18%,
+      rgb(244 114 182 / 7%),
+      transparent 30rem
+    ),
+    linear-gradient(
+      145deg,
+      rgb(255 247 250 / 72%),
+      rgb(255 255 255 / 92%) 46%,
+      rgb(250 245 255 / 66%)
+    );
+  background-attachment: fixed;
   background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  filter: var(--shiro-page-background-filter);
-  opacity: var(--shiro-page-background-opacity);
+  background-size: 100% 100%;
+}
+
+html[data-theme='dark'].themed body {
+  background-color: #0b090d;
+  background-image: radial-gradient(
+      circle at 14% 9%,
+      rgb(251 113 133 / 9%),
+      transparent 34rem
+    ),
+    radial-gradient(circle at 88% 22%, rgb(217 70 239 / 6%), transparent 30rem),
+    linear-gradient(
+      145deg,
+      rgb(24 15 20 / 96%),
+      rgb(10 9 13 / 98%) 50%,
+      rgb(18 13 25 / 96%)
+    );
 }
 
 @media print {
   /* styles for print */
-  html.noise body::before,
-  html.themed body::after {
+  html.noise body::before {
     display: none;
+  }
+
+  html.themed body {
+    background: white;
   }
 }
 

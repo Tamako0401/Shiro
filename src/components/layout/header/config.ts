@@ -2,7 +2,6 @@ import type { ReactNode } from 'react'
 import { createElement as h } from 'react'
 
 import {
-  FaSolidCircle,
   FaSolidCircleNotch,
   FaSolidComments,
   FaSolidDotCircle,
@@ -10,7 +9,6 @@ import {
   FaSolidHistory,
   FaSolidUserFriends,
   IcTwotoneSignpost,
-  IonBook,
   MdiFlask,
   MdiLightbulbOn20,
   RMixPlanet,
@@ -48,33 +46,11 @@ export const headerMenuConfig: IHeaderMenu[] = [
   },
 
   {
-    title: '时光',
-    icon: h(FaSolidHistory),
-    path: '/timeline',
-    subMenu: [
-      {
-        title: '手记',
-        icon: h(FaSolidFeatherAlt),
-        path: '/timeline?type=note',
-      },
-      {
-        title: '文稿',
-        icon: h(IonBook),
-        path: '/timeline?type=post',
-      },
-      {
-        title: '回忆',
-        icon: h(FaSolidCircle),
-        path: '/timeline?memory=1',
-      },
-      {
-        title: '专栏',
-        path: '/notes/topics',
-        icon: h('i', {
-          className: 'i-mingcute-align-bottom-fill flex center',
-        }),
-      },
-    ],
+    title: '词云',
+    icon: h('i', {
+      className: 'i-mingcute-cloud-line flex center',
+    }),
+    path: '/tags',
   },
   {
     title: '友链',
@@ -87,6 +63,11 @@ export const headerMenuConfig: IHeaderMenu[] = [
     icon: h(FaSolidCircleNotch),
     path: '#',
     subMenu: [
+      {
+        title: '时光',
+        icon: h(FaSolidHistory),
+        path: '/timeline',
+      },
       {
         title: '思考',
         icon: h(MdiLightbulbOn20),

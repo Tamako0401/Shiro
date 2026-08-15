@@ -295,6 +295,57 @@ html[data-theme='dark'] .Toastify__toast--error {
   animation: ShiroToast__slide-out-up 160ms ease-in both;
 }
 
+/*
+ * Dedicated transition used by src/lib/toast.ts.
+ * `translate` is intentionally used instead of `transform`: react-toastify
+ * owns transform for stacked positioning via --y, so animating transform on
+ * the same node makes likes jump or land in the wrong row.
+ */
+@keyframes ShiroToast__enter {
+  0% {
+    opacity: 0;
+    translate: calc(100% + 1.5rem) 0;
+    scale: 0.97;
+  }
+
+  72% {
+    opacity: 1;
+    translate: -0.35rem 0;
+    scale: 1.01;
+  }
+
+  100% {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+  }
+}
+
+@keyframes ShiroToast__exit {
+  0% {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+  }
+
+  100% {
+    opacity: 0;
+    translate: calc(100% + 1.5rem) 0;
+    scale: 0.98;
+  }
+}
+
+.shiro-toast-enter {
+  animation: ShiroToast__enter 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: translate, scale, opacity;
+}
+
+.shiro-toast-exit {
+  animation: ShiroToast__exit 180ms cubic-bezier(0.55, 0, 1, 0.45) both;
+  pointer-events: none;
+  will-change: translate, scale, opacity;
+}
+
 @media (max-width: 480px) {
   :root {
     --toastify-container-width: calc(100vw - 1.5rem);
@@ -320,7 +371,9 @@ html[data-theme='dark'] .Toastify__toast--error {
 
 @media (prefers-reduced-motion: reduce) {
   .Toastify--animate,
-  .Toastify__toast--stacked {
+  .Toastify__toast--stacked,
+  .shiro-toast-enter,
+  .shiro-toast-exit {
     animation-duration: 1ms !important;
     transition-duration: 1ms !important;
   }

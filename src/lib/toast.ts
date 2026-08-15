@@ -1,17 +1,29 @@
 import type { JSX } from 'react'
 import { createElement } from 'react'
-import type { Id, ToastOptions, TypeOptions } from 'react-toastify'
-import { Slide, toast as Toast } from 'react-toastify'
+import type {
+  Id,
+  ToastOptions,
+  ToastTransition,
+  TypeOptions,
+} from 'react-toastify'
+import { cssTransition, toast as Toast } from 'react-toastify'
 
 import { ToastCard } from '~/components/modules/shared/ToastCard'
+
+let shiroToastTransition: ToastTransition | undefined
+const getShiroToastTransition = () =>
+  (shiroToastTransition ??= cssTransition({
+    enter: 'shiro-toast-enter',
+    exit: 'shiro-toast-exit',
+    collapse: true,
+    collapseDuration: 140,
+  }))
 
 const baseConfig = {
   position: 'bottom-right',
   autoClose: 3000,
   pauseOnHover: true,
   hideProgressBar: true,
-  transition: Slide,
-
   closeOnClick: true,
   closeButton: false,
 } satisfies ToastOptions
@@ -46,6 +58,7 @@ export const toast: ToastCustom = (
   return Toast(createElement(ToastCard, { message, iconElement, onClick }), {
     type,
     ...baseConfig,
+    transition: getShiroToastTransition(),
     ...rest,
   })
 }
