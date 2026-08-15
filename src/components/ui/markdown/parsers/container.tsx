@@ -12,33 +12,68 @@ import { Markdown } from '../Markdown'
 import { GridMarkdownImage, GridMarkdownImages } from '../renderers/image'
 import { pickImagesFromMarkdown } from '../utils/image'
 
-const shouldCatchContainerName = [
+const supportedContainerNames = new Set([
   'gallery',
   'banner',
   'carousel',
 
   'warn',
+  'caution',
   'error',
   'danger',
   'info',
+  'important',
   'success',
+  'tip',
   'warning',
   'note',
 
   'grid',
-].join('|')
+])
+
+const containerBlockRegex =
+  /^(?:[\t ]*\r?\n)*[\t ]*:::[\t ]*(?<header>[^\r\n]*?)[\t ]*\r?\n(?<content>[\s\S]*?)\r?\n[\t ]*:::[\t ]*(?=\r?\n|$)(?:\r?\n[\t ]*)*/
+
+const containerHeaderRegex =
+  /^(?<type>[a-z][\w-]*)(?:[\t ]*\[(?<title>[^\]\r\n]*)\])?(?:[\t ]*\{(?<params>[^}\r\n]*)\})?$/i
+
+const calloutConfig = {
+  note: { bannerType: 'info', defaultTitle: 'Note' },
+  info: { bannerType: 'info', defaultTitle: 'Info' },
+  important: { bannerType: 'info', defaultTitle: 'Important' },
+  tip: { bannerType: 'success', defaultTitle: 'Tip' },
+  success: { bannerType: 'success', defaultTitle: 'Success' },
+  warning: { bannerType: 'warning', defaultTitle: 'Warning' },
+  warn: { bannerType: 'warning', defaultTitle: 'Warning' },
+  caution: { bannerType: 'warning', defaultTitle: 'Caution' },
+  danger: { bannerType: 'error', defaultTitle: 'Danger' },
+  error: { bannerType: 'error', defaultTitle: 'Error' },
+} as const
+
+function parseContainerHeader(header: string) {
+  const result = containerHeaderRegex.exec(header.trim())
+  if (!result?.groups) return null
+
+  const type = result.groups.type.toLowerCase()
+  if (!supportedContainerNames.has(type)) return null
+
+  return {
+    type,
+    title: result.groups.title?.trim() || undefined,
+    params: result.groups.params?.trim() || undefined,
+  }
+}
 
 export const ContainerRule: MarkdownToJSX.Rule = {
   match: (source: string) => {
-    const result =
-      /^\s*::: *(?<type>.*?) *(?:\{(?<params>.*?)\})? *\n(?<content>[\s\S]+?)\s*::: *(?:\n *)+/.exec(
-        source,
-      )
+    const result = containerBlockRegex.exec(source)
 
-    if (!result) return null
+    if (!result?.groups) return null
 
-    const { type } = result.groups!
-    if (!type || !type.match(shouldCatchContainerName)) return null
+    const header = parseContainerHeader(result.groups.header)
+    if (!header) return null
+
+    Object.assign(result.groups, header)
     return result
   },
   order: Priority.MED,
@@ -50,7 +85,7 @@ export const ContainerRule: MarkdownToJSX.Rule = {
   },
 
   react(node, _, state) {
-    const { type, params, content } = node.node
+    const { type, title, params, content } = node.node
 
     switch (type) {
       case 'carousel':
@@ -60,28 +95,30 @@ export const ContainerRule: MarkdownToJSX.Rule = {
         )
       }
       case 'warn':
+      case 'caution':
       case 'error':
       case 'danger':
       case 'info':
+      case 'important':
       case 'note':
       case 'success':
+      case 'tip':
       case 'warning': {
-        const transformMap = {
-          warning: 'warn',
-          danger: 'error',
-          note: 'info',
-        }
+        const config = calloutConfig[type as keyof typeof calloutConfig]
         return (
-          <Banner
-            type={(transformMap as any)[type] || type}
-            className="my-4"
-            key={state?.key}
-          >
+          <Banner type={config.bannerType} className="my-4" key={state?.key}>
             <WrappedElementProvider className="w-full">
+              <div
+                className="mb-2 font-semibold leading-6"
+                data-callout-title
+                data-callout-type={type}
+              >
+                {title || config.defaultTitle}
+              </div>
               <Markdown
                 value={content}
                 allowsScript
-                className="w-full [&>p:first-child]:mt-0"
+                className="w-full [&>p:first-child]:mt-0 [&>p:last-child]:mb-0"
               />
             </WrappedElementProvider>
           </Banner>
@@ -95,10 +132,13 @@ export const ContainerRule: MarkdownToJSX.Rule = {
         return (
           <Banner type={params} className="my-4" key={state?.key}>
             <WrappedElementProvider className="w-full">
+              {title && (
+                <div className="mb-2 font-semibold leading-6">{title}</div>
+              )}
               <Markdown
                 value={content}
                 allowsScript
-                className="w-full [&>p:first-child]:mt-0"
+                className="w-full [&>p:first-child]:mt-0 [&>p:last-child]:mb-0"
               />
             </WrappedElementProvider>
           </Banner>

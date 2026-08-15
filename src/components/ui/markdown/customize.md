@@ -76,6 +76,26 @@ $ c = \pm\sqrt{a^2 + b^2} $
 
 ## Container
 
+### Admonitions
+
+```md
+:::note[verifiedbootstate btw]
+This callout uses a custom title.
+:::
+
+::: tip
+This callout uses the default title for its type.
+:::
+```
+
+:::note[verifiedbootstate btw]
+This callout uses a custom title.
+:::
+
+::: tip
+This callout uses the default title for its type.
+:::
+
 ### banner
 
 ```
