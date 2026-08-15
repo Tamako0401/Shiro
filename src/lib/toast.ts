@@ -22,7 +22,7 @@ const getShiroToastTransition = () =>
 const baseConfig = {
   position: 'bottom-right',
   autoClose: 3000,
-  pauseOnHover: true,
+  pauseOnHover: false,
   hideProgressBar: true,
   closeOnClick: true,
   closeButton: false,
