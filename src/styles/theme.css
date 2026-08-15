@@ -12,12 +12,12 @@ html[data-theme='dark'].noise body::before {
 }
 
 html.themed {
-  --shiro-page-background-opacity: 0.14;
+  --shiro-page-background-opacity: 0.00;
   --shiro-page-background-filter: saturate(0.82) contrast(0.92);
 }
 
 html[data-theme='dark'].themed {
-  --shiro-page-background-opacity: 0.09;
+  --shiro-page-background-opacity: 0.00;
   --shiro-page-background-filter: brightness(0.65) saturate(0.75);
 }
 
