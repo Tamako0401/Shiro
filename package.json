@@ -9,12 +9,12 @@
   },
   "scripts": {
     "analyze": "cross-env NODE_ENV=production ANALYZE=true BUNDLE_ANALYZE=browser next build",
+    "prebuild": "rimraf .next || exit 0",
     "build": "cross-env NODE_ENV=production NODE_OPTIONS=--max_old_space_size=4096 next build",
     "build:ci": "cross-env NODE_ENV=production NODE_OPTIONS=--max_old_space_size=4096 NEXT_TELEMETRY_DISABLED=1 CI=true next build",
     "dev": "cross-env NODE_ENV=development next dev -p 2323",
     "dev:turbo": "cross-env NODE_ENV=development next dev -p 2323 --turbo",
     "lint": "eslint --fix",
-    "prebuild": "rimraf .next || exit 0",
     "prepare": "pnpm exec simple-git-hooks && test -f .env || cp .env.template .env",
     "prod:pm2": "cross-env NODE_ENV=production pm2 restart ecosystem.config.cjs",
     "prod:reload": "pm2 reload ecosystem.config.cjs",
@@ -118,6 +118,7 @@
     "unist-util-visit": "5.0.0",
     "use-context-selector": "2.0.0",
     "vaul": "1.1.2",
+    "vercel": "^59.0.0",
     "xss": "1.0.15"
   },
   "devDependencies": {

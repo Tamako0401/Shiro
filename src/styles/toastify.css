@@ -1,237 +1,173 @@
-/* Toast */
-.Toastify {
-  position: fixed;
-  z-index: 99;
-  bottom: 30px;
-  right: 12px;
-  width: 300px;
-  pointer-events: all !important;
-}
-
+/*
+ * Compact, stacked notifications.
+ *
+ * react-toastify injects its base stylesheet at runtime. Keep every reset
+ * scoped to Toastify so the library can still own positioning, gestures and
+ * accessibility while Shiro owns the visual treatment.
+ */
 :root {
-  --toastify-toast-width: 320px;
-  --toastify-z-index: 9999;
-  --toastify-toast-min-height: 64px;
-  --toastify-toast-max-height: 800px;
-  --toastify-toast-offset: 16px;
-  --toastify-toast-top: max(
-    var(--toastify-toast-offset),
-    env(safe-area-inset-top)
-  );
-  --toastify-toast-right: max(
-    var(--toastify-toast-offset),
-    env(safe-area-inset-right)
-  );
-  --toastify-toast-left: max(
-    var(--toastify-toast-offset),
-    env(safe-area-inset-left)
-  );
-  --toastify-toast-bottom: max(
-    var(--toastify-toast-offset),
-    env(safe-area-inset-bottom)
-  );
+  --toastify-container-width: min(32rem, calc(100vw - 2rem));
+  --toastify-toast-width: min(32rem, calc(100vw - 2rem));
+  --toastify-toast-min-height: 3.5rem;
+  --toastify-toast-offset: 1rem;
+  --toastify-toast-bd-radius: 1rem;
+  --toastify-toast-padding: 0;
+  --toastify-toast-shadow: none;
+  --shiro-toast-bg: rgba(255, 255, 255, 0.9);
+  --shiro-toast-border: rgba(24, 24, 27, 0.12);
+  --shiro-toast-color: rgb(39, 39, 42);
+  --shiro-toast-shadow: 0 18px 45px rgba(24, 24, 27, 0.12),
+    0 4px 14px rgba(24, 24, 27, 0.08);
 }
 
-.Toastify__toast-icon {
-  display: none;
-}
 .Toastify__toast-container {
-  width: 100%;
-  z-index: var(--toastify-z-index);
-  -webkit-transform: translate3d(0, 0, var(--toastify-z-index));
-  position: fixed;
-  padding: 4px;
-  width: var(--toastify-toast-width);
   box-sizing: border-box;
+  padding: 0;
+  pointer-events: none;
 }
 
-.Toastify--animate {
-  animation-fill-mode: both;
-  animation-duration: 0.7s;
-}
-
-.Toastify__toast-container div {
-  opacity: 1 !important;
-}
-
-.Toastify__bounce-enter--top-right,
-.Toastify__bounce-enter--bottom-right {
-  animation-name: Toastify__bounceInRight;
-}
-
-.Toastify__bounce-exit--top-right,
-.Toastify__bounce-exit--bottom-right {
-  animation-name: Toastify__bounceOutRight;
-}
-
-.Toastify__bounce-enter--top-center {
-  animation-name: Toastify__bounceInDown;
-}
-
-.Toastify__bounce-exit--top-center {
-  animation-name: Toastify__bounceOutUp;
-}
-
-.Toastify__toast-container--top-left {
-  top: var(--toastify-toast-top);
-  left: var(--toastify-toast-left);
-}
-.Toastify__toast-container--top-center {
-  top: var(--toastify-toast-top);
-  left: 50%;
-  transform: translateX(-50%);
-}
-.Toastify__toast-container--top-right {
-  top: var(--toastify-toast-top);
-  right: var(--toastify-toast-right);
-}
-.Toastify__toast-container--bottom-left {
-  bottom: var(--toastify-toast-bottom);
-  left: var(--toastify-toast-left);
-}
-.Toastify__toast-container--bottom-center {
-  bottom: var(--toastify-toast-bottom);
-  left: 50%;
-  transform: translateX(-50%);
-}
+.Toastify__toast-container--bottom-left,
+.Toastify__toast-container--bottom-center,
 .Toastify__toast-container--bottom-right {
-  bottom: var(--toastify-toast-bottom);
-  right: var(--toastify-toast-right);
+  bottom: max(1rem, env(safe-area-inset-bottom));
 }
 
-@keyframes Toastify__bounceOutUp {
-  20% {
-    transform: translate3d(0, -10px, 0);
-  }
-  40%,
-  45% {
-    opacity: 1;
-    transform: translate3d(0, 20px, 0);
-  }
-  to {
-    opacity: 0;
-    transform: translate3d(0, -2000px, 0);
-  }
-}
-@keyframes Toastify__bounceInDown {
-  from,
-  60%,
-  75%,
-  90%,
-  to {
-    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  }
-  0% {
-    opacity: 0;
-    transform: translate3d(0, -3000px, 0);
-  }
-  60% {
-    opacity: 1;
-    transform: translate3d(0, 25px, 0);
-  }
-  75% {
-    transform: translate3d(0, -10px, 0);
-  }
-  90% {
-    transform: translate3d(0, 5px, 0);
-  }
-  to {
-    transform: none;
-  }
+.Toastify__toast {
+  width: var(--toastify-toast-width);
+  min-height: var(--toastify-toast-min-height);
+  margin: 0 0 0.625rem;
+  padding: 0;
+  overflow: hidden;
+  color: var(--shiro-toast-color);
+  background: var(--shiro-toast-bg);
+  border: 1px solid var(--shiro-toast-border);
+  border-radius: var(--toastify-toast-bd-radius);
+  box-shadow: var(--shiro-toast-shadow);
+  backdrop-filter: blur(18px) saturate(135%);
+  -webkit-backdrop-filter: blur(18px) saturate(135%);
+  pointer-events: auto;
 }
 
-@keyframes Toastify__trackProgress {
-  0% {
-    transform: scaleX(1);
-  }
-  100% {
-    transform: scaleX(0);
-  }
+.Toastify__toast--success {
+  --shiro-toast-bg: rgba(236, 253, 245, 0.92);
+  --shiro-toast-border: rgba(16, 185, 129, 0.2);
+  --shiro-toast-color: rgb(20, 83, 45);
 }
 
-.Toastify__progress-bar--animated {
-  animation: Toastify__trackProgress linear 1 forwards;
+.Toastify__toast--info {
+  --shiro-toast-bg: rgba(239, 246, 255, 0.92);
+  --shiro-toast-border: rgba(59, 130, 246, 0.18);
+  --shiro-toast-color: rgb(30, 64, 175);
 }
 
-@keyframes Toastify__bounceInRight {
-  from,
-  60%,
-  75%,
-  90%,
-  to {
-    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  }
-  from {
-    transform: translate3d(3000px, 0, 0);
-  }
-  60% {
-    transform: translate3d(-25px, 0, 0);
-  }
-  75% {
-    transform: translate3d(10px, 0, 0);
-  }
-  90% {
-    transform: translate3d(-5px, 0, 0);
-  }
-  to {
-    transform: none;
-  }
+.Toastify__toast--warning,
+.Toastify__toast--warn {
+  --shiro-toast-bg: rgba(255, 251, 235, 0.94);
+  --shiro-toast-border: rgba(245, 158, 11, 0.22);
+  --shiro-toast-color: rgb(113, 63, 18);
 }
 
-@keyframes Toastify__bounceOutRight {
-  20% {
-    opacity: 1;
-    transform: translate3d(-20px, 0, 0);
-  }
-  to {
-    opacity: 0;
-    transform: translate3d(2000px, 0, 0);
-  }
+.Toastify__toast--error {
+  --shiro-toast-bg: rgba(255, 241, 242, 0.94);
+  --shiro-toast-border: rgba(244, 63, 94, 0.2);
+  --shiro-toast-color: rgb(136, 19, 55);
 }
-/* 
-.Toastify__toast--stacked {
-  position: absolute;
+
+html[data-theme='dark'] .Toastify__toast {
+  --shiro-toast-bg: rgba(24, 24, 27, 0.92);
+  --shiro-toast-border: rgba(161, 161, 170, 0.24);
+  --shiro-toast-color: rgb(244, 244, 245);
+  --shiro-toast-shadow: 0 18px 45px rgba(0, 0, 0, 0.28),
+    0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+html[data-theme='dark'] .Toastify__toast--success {
+  --shiro-toast-bg: rgba(22, 47, 36, 0.94);
+  --shiro-toast-border: rgba(52, 211, 153, 0.22);
+  --shiro-toast-color: rgb(209, 250, 229);
+}
+
+html[data-theme='dark'] .Toastify__toast--info {
+  --shiro-toast-bg: rgba(23, 39, 58, 0.94);
+  --shiro-toast-border: rgba(96, 165, 250, 0.22);
+  --shiro-toast-color: rgb(219, 234, 254);
+}
+
+html[data-theme='dark'] .Toastify__toast--warning,
+html[data-theme='dark'] .Toastify__toast--warn {
+  --shiro-toast-bg: rgba(54, 45, 25, 0.94);
+  --shiro-toast-border: rgba(251, 191, 36, 0.24);
+  --shiro-toast-color: rgb(254, 243, 199);
+}
+
+html[data-theme='dark'] .Toastify__toast--error {
+  --shiro-toast-bg: rgba(59, 30, 35, 0.94);
+  --shiro-toast-border: rgba(251, 113, 133, 0.24);
+  --shiro-toast-color: rgb(255, 228, 230);
+}
+
+.Toastify__toast-body {
+  display: flex;
+  flex: 1;
   width: 100%;
-  transform: translate3d(0, var(--y), 0) scale(var(--s));
-  transition: transform 0.3s;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
 }
+
+.Toastify__toast-icon,
+.Toastify__progress-bar,
+.Toastify__progress-bar--wrp {
+  display: none !important;
+}
+
+.Toastify__toast--stacked {
+  margin-bottom: 0;
+  transform: translate3d(0, var(--y), 0) scale(var(--s));
+  transition:
+    transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 180ms ease;
+}
+
 .Toastify__toast--stacked[data-collapsed] .Toastify__toast-body,
 .Toastify__toast--stacked[data-collapsed] .Toastify__close-button {
-  transition: opacity 0.1s;
+  transition: opacity 120ms ease;
 }
-.Toastify__toast--stacked[data-collapsed='false'] {
-  overflow: visible;
-}
-.Toastify__toast--stacked[data-collapsed='true']:not(:last-child) > * {
+
+.Toastify__toast--stacked[data-collapsed='true']:not(:last-child)
+  > .Toastify__toast-body,
+.Toastify__toast--stacked[data-collapsed='true']:not(:last-child)
+  > .Toastify__close-button {
   opacity: 0;
 }
-.Toastify__toast--stacked:after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: calc(var(--g) * 1px);
-  bottom: 100%;
+
+@media (max-width: 480px) {
+  :root {
+    --toastify-container-width: calc(100vw - 1.5rem);
+    --toastify-toast-width: calc(100vw - 1.5rem);
+  }
+
+  .Toastify__toast-container {
+    right: 0.75rem;
+    left: 0.75rem;
+    width: var(--toastify-container-width);
+    margin: 0;
+  }
+
+  .Toastify__toast-container--top-center,
+  .Toastify__toast-container--bottom-center {
+    transform: none;
+  }
+
+  .Toastify__toast {
+    border-radius: 0.875rem;
+  }
 }
-.Toastify__toast--stacked[data-pos='top'] {
-  top: 0;
+
+@media (prefers-reduced-motion: reduce) {
+  .Toastify--animate,
+  .Toastify__toast--stacked {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+  }
 }
-.Toastify__toast--stacked[data-pos='bot'] {
-  bottom: 0;
-}
-.Toastify__toast--stacked[data-pos='bot'].Toastify__toast--stacked:before {
-  transform-origin: top;
-}
-.Toastify__toast--stacked[data-pos='top'].Toastify__toast--stacked:before {
-  transform-origin: bottom;
-}
-.Toastify__toast--stacked:before {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 100%;
-  transform: scaleY(3);
-  z-index: -1;
-} */

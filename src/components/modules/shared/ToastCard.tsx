@@ -8,11 +8,11 @@ import type { TypeOptions } from 'react-toastify'
 import { MotionButtonBase } from '../../ui/button'
 
 const typeMap: Record<TypeOptions, JSX.Element> = {
-  success: <i className="i-mingcute-check-fill text-uk-green-light" />,
-  error: <i className="i-mingcute-close-fill text-uk-red-light" />,
-  info: <i className="i-mingcute-information-fill text-uk-blue-light" />,
-  warning: <i className="i-mingcute-alert-fill text-uk-orange-light" />,
-  default: <i className="i-mingcute-information-fill text-uk-blue-light" />,
+  success: <span className="size-2.5 rounded-full bg-emerald-400" />,
+  error: <span className="size-2.5 rounded-full bg-rose-400" />,
+  info: <span className="size-2.5 rounded-full bg-sky-400" />,
+  warning: <span className="size-2.5 rounded-full bg-amber-400" />,
+  default: <span className="size-2.5 rounded-full bg-lime-400/80" />,
 }
 
 export const ToastCard: FC<{
@@ -32,15 +32,10 @@ export const ToastCard: FC<{
     <MotionTag
       layout="position"
       className={clsx(
-        'card-shadow relative w-full overflow-hidden rounded-xl',
-        'my-4 mr-4 px-4 py-5 pr-8',
-        'bg-zinc-50/90 backdrop-blur-sm dark:bg-neutral-900/90',
-        'border border-slate-100/80 dark:border-neutral-900/80',
-        'space-x-4',
-        'flex items-center',
-        'select-none',
-        '[&>i]:shrink-0',
-        '[&>svg]:shrink-0',
+        'group relative flex min-h-14 w-full items-center gap-4',
+        'overflow-hidden px-5 py-4 pr-11',
+        'select-none text-inherit',
+        '[&>i]:shrink-0 [&>span:first-child]:shrink-0 [&>svg]:shrink-0',
       )}
       onClick={onClick}
     >
@@ -49,7 +44,7 @@ export const ToastCard: FC<{
 
       <MotionButtonBase
         aria-label="Close toast"
-        className="absolute inset-y-0 right-3 flex items-center text-sm text-base-content/40 duration-200 hover:text-base-content/80"
+        className="absolute inset-y-0 right-3 flex items-center text-sm text-current opacity-0 duration-200 group-hover:opacity-50 hover:opacity-90 focus-visible:opacity-100"
         onClick={(e) => {
           e.stopPropagation()
           closeToast?.()

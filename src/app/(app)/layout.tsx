@@ -192,7 +192,7 @@ export default async function RootLayout(props: PropsWithChildren) {
             <SearchPanelWithHotKey />
             <Analyze />
             <SyncServerTime />
-            <ToastContainer />
+            <ToastContainer position="bottom-right" stacked limit={4} />
             <ScrollTop />
             <div className="fixed inset-y-0 right-0 w-[var(--removed-body-scroll-bar-size)]" />
           </WebAppProviders>
