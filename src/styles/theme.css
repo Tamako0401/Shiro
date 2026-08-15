@@ -11,9 +11,34 @@ html[data-theme='dark'].noise body::before {
   opacity: 0.01;
 }
 
+html.themed {
+  --shiro-page-background-opacity: 0.14;
+  --shiro-page-background-filter: saturate(0.82) contrast(0.92);
+}
+
+html[data-theme='dark'].themed {
+  --shiro-page-background-opacity: 0.09;
+  --shiro-page-background-filter: brightness(0.65) saturate(0.75);
+}
+
+html.themed body::after {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  content: '';
+  pointer-events: none;
+  background-image: url('https://pub-48617792005b4ba3acf721d0626eae2f.r2.dev/shiro/backgrounds/bg-3.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  filter: var(--shiro-page-background-filter);
+  opacity: var(--shiro-page-background-opacity);
+}
+
 @media print {
   /* styles for print */
-  html.noise body::before {
+  html.noise body::before,
+  html.themed body::after {
     display: none;
   }
 }
