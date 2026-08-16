@@ -30,7 +30,7 @@ export const defaultLinkSections: LinkSection[] = [
       },
       {
         name: '监控',
-        href: 'https://status.shizuri.net/status/main',
+        href: '//TODO: add your own link',
         external: true,
       },
     ],
@@ -44,12 +44,12 @@ export const defaultLinkSections: LinkSection[] = [
       },
       {
         name: '发邮件',
-        href: 'mailto:i@innei.in',
+        href: 'mailto:b25091308@njupt.edu.cn',
         external: true,
       },
       {
         name: 'GitHub',
-        href: 'https://github.com/innei',
+        href: 'https://github.com/Tamako0401',
         external: true,
       },
     ],

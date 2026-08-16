@@ -9,9 +9,9 @@ import {
   FaSolidHistory,
   FaSolidUserFriends,
   IcTwotoneSignpost,
-  MdiFlask,
-  MdiLightbulbOn20,
-  RMixPlanet,
+  // MdiFlask,
+  // MdiLightbulbOn20,
+  // RMixPlanet,
 } from '~/components/icons/menu-collection'
 
 export interface IHeaderMenu {
@@ -68,26 +68,26 @@ export const headerMenuConfig: IHeaderMenu[] = [
         icon: h(FaSolidHistory),
         path: '/timeline',
       },
-      {
-        title: '思考',
-        icon: h(MdiLightbulbOn20),
-        path: '/thinking',
-      },
-      {
-        title: '项目',
-        icon: h(MdiFlask),
-        path: '/projects',
-      },
+      // {
+      //   title: '思考',
+      //   icon: h(MdiLightbulbOn20),
+      //   path: '/thinking',
+      // },
+      // {
+      //   title: '项目',
+      //   icon: h(MdiFlask),
+      //   path: '/projects',
+      // },
       {
         title: '一言',
         path: '/says',
         icon: h(FaSolidComments),
       },
-      {
-        title: '跃迁',
-        icon: h(RMixPlanet),
-        path: 'https://travel.moe/go.html',
-      },
+      // {
+      //   title: '跃迁',
+      //   icon: h(RMixPlanet),
+      //   path: 'https://travel.moe/go.html',
+      // },
     ],
   },
 ]
