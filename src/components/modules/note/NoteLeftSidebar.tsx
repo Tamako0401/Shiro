@@ -1,7 +1,7 @@
 'use client'
 
 import { m } from 'motion/react'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { OnlyDesktop } from '~/components/ui/viewport'
 
@@ -10,7 +10,7 @@ import { NoteTimeline } from './NoteTimeline'
 import { NoteTopicInfo } from './NoteTopicInfo'
 
 export const NoteLeftSidebar: Component = ({ className }) => {
-  const scrollRef = useRef<HTMLDivElement>(null)
+  const [scroller, setScroller] = useState<HTMLDivElement | null>(null)
   const [scrollHint, setScrollHint] = useState({
     above: 0,
     below: 0,
@@ -18,7 +18,6 @@ export const NoteLeftSidebar: Component = ({ className }) => {
   })
 
   const updateScrollHint = useCallback(() => {
-    const scroller = scrollRef.current
     if (!scroller) return
 
     const viewport = scroller.getBoundingClientRect()
@@ -42,10 +41,9 @@ export const NoteLeftSidebar: Component = ({ className }) => {
         ? current
         : next,
     )
-  }, [])
+  }, [scroller])
 
   useEffect(() => {
-    const scroller = scrollRef.current
     if (!scroller) return
 
     const frame = requestAnimationFrame(updateScrollHint)
@@ -68,7 +66,7 @@ export const NoteLeftSidebar: Component = ({ className }) => {
       mutationObserver.disconnect()
       window.removeEventListener('resize', updateScrollHint)
     }
-  }, [updateScrollHint])
+  }, [scroller, updateScrollHint])
 
   const hintText = scrollHint.below
     ? scrollHint.above
@@ -81,7 +79,7 @@ export const NoteLeftSidebar: Component = ({ className }) => {
       <AutoHeightOptimize className={className}>
         <m.div layoutRoot layout className="sticky top-[120px] min-h-0">
           <div
-            ref={scrollRef}
+            ref={setScroller}
             className="relative max-h-[calc(100dvh-160px)] min-h-0 overflow-y-auto overscroll-contain pb-8 pr-2 [scrollbar-gutter:stable]"
             onScroll={updateScrollHint}
           >
