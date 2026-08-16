@@ -44,7 +44,7 @@ const NoteTimelineImpl = () => {
     queryFn: async ({ queryKey }) => {
       const [, noteId] = queryKey
       if (!noteId) throw ''
-      return (await apiClient.note.getMiddleList(noteId, 10)).$serialized.data
+      return (await apiClient.note.getMiddleList(noteId, 20)).$serialized.data
     },
     enabled: noteId !== undefined,
     placeholderData: keepPreviousData,

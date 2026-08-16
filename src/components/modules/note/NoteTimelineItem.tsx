@@ -42,6 +42,7 @@ export const NoteTimelineItem = memo<{
   })
   return (
     <m.li
+      data-note-timeline-item
       layout={layout}
       className="flex items-center"
       layoutId={layout ? `note-${nid}` : undefined}
