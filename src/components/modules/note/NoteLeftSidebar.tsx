@@ -49,19 +49,24 @@ export const NoteLeftSidebar: Component = ({ className }) => {
     if (!scroller) return
 
     const frame = requestAnimationFrame(updateScrollHint)
+    const settledLayoutTimer = window.setTimeout(updateScrollHint, 500)
     const resizeObserver = new ResizeObserver(updateScrollHint)
     const mutationObserver = new MutationObserver(updateScrollHint)
     resizeObserver.observe(scroller)
+    resizeObserver.observe(document.documentElement)
     mutationObserver.observe(scroller, {
       childList: true,
       characterData: true,
       subtree: true,
     })
+    window.addEventListener('resize', updateScrollHint)
 
     return () => {
       cancelAnimationFrame(frame)
+      window.clearTimeout(settledLayoutTimer)
       resizeObserver.disconnect()
       mutationObserver.disconnect()
+      window.removeEventListener('resize', updateScrollHint)
     }
   }, [updateScrollHint])
 
@@ -74,14 +79,10 @@ export const NoteLeftSidebar: Component = ({ className }) => {
   return (
     <OnlyDesktop>
       <AutoHeightOptimize className={className}>
-        <m.div
-          layoutRoot
-          layout
-          className="sticky top-[120px] mt-[120px] min-h-0"
-        >
+        <m.div layoutRoot layout className="sticky top-[120px] min-h-0">
           <div
             ref={scrollRef}
-            className="relative max-h-[calc(100dvh-9rem)] min-h-0 overflow-y-auto overscroll-contain pb-8 pr-2 [scrollbar-gutter:stable]"
+            className="relative max-h-[calc(100dvh-160px)] min-h-0 overflow-y-auto overscroll-contain pb-8 pr-2 [scrollbar-gutter:stable]"
             onScroll={updateScrollHint}
           >
             <NoteTimeline />
